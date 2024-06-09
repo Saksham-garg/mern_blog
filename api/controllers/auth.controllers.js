@@ -57,7 +57,7 @@ const signIn = asyncHandler(async(req,res,next) => {
         const {password:pass, ...rest } = user._doc
         const token = jwt.sign({id:user._id},process.env.JWT_SECRET)
 
-        return res.status(200).cookie('access_token',token,{ httpOnly:true}).json(rest)
+        return res.status(200).cookie('access_token',token,{ httpOnly:true}).json(new ApiResponse(200,rest))
         
     } catch (error) {
         next(new ApiError(400,error.message))
