@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Navbar, TextInput } from "flowbite-react";
-import { Link, Outlet,useLocation } from "react-router-dom";
+import { Link,useLocation } from "react-router-dom";
 import { AiOutlineSearch } from 'react-icons/ai'
 import { FaMoon } from 'react-icons/fa6'
 
@@ -53,7 +53,6 @@ const Header = () => {
             </Navbar.Link>
         </Navbar.Collapse>
       </Navbar>
-      <Outlet />
     </>
   );
 };

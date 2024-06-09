@@ -35,7 +35,7 @@ const SignUp = () => {
     }
   }
   return (
-    <div className='p-3 mt-20'>
+    <div className='p-3 mt-20 min-h-screen'>
       <div className="flex flex-col max-w-3xl md:flex-row m-auto md:items-center">
 
         {/* Left Side  */}

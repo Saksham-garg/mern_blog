@@ -1,10 +1,10 @@
 import { Dashboard, Home, Projects, SignIn, SignUp, About } from "@/views";
-import { Header } from "../components";
+import { Layout } from "../components";
 
 export default [
   {
     path:'/',
-    element:<Header />,
+    element:<Layout />,
     children:[
       {
         path: "",
