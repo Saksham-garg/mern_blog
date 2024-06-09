@@ -1,10 +1,11 @@
 import React from "react";
 import { Button, Navbar, TextInput } from "flowbite-react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet,useLocation } from "react-router-dom";
 import { AiOutlineSearch } from 'react-icons/ai'
 import { FaMoon } from 'react-icons/fa6'
 
 const Header = () => {
+  const path = useLocation()
   return (
     <>
       <Navbar>
@@ -35,17 +36,17 @@ const Header = () => {
         </div>
         <Navbar.Toggle />
         <Navbar.Collapse>
-            <Navbar.Link active={path === "/"} as={"div"}>
+            <Navbar.Link active={path.pathname === "/"} as={"div"}>
                 <Link to="/">
                     Home
                 </Link>
             </Navbar.Link>
-            <Navbar.Link active={path === "/about"} as={"div"}>
+            <Navbar.Link active={path.pathname === "/about"} as={"div"}>
                 <Link to="/about">
                     About
                 </Link>
             </Navbar.Link>
-            <Navbar.Link active={path === "/projects"} as={"div"}>
+            <Navbar.Link active={path.pathname === "/projects"} as={"div"}>
                 <Link to="/projects">
                     Projects
                 </Link>
