@@ -1,8 +1,10 @@
 import Header from "./Header/Header.jsx";
 import Footer from './Footer/Footer.jsx'
 import Layout from "./Layout/Layout.jsx";
+import GoogleOAuth from './GoogleOAuth/OAuth.jsx'
 export {
     Header,
     Footer,
-    Layout
+    Layout,
+    GoogleOAuth
 }

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Alert, Button, Label, TextInput, Spinner } from "flowbite-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { GoogleOAuth } from "../components/index.js";
 import axios from "axios";
 import {
   signInFailure,
@@ -78,7 +79,7 @@ const SignIn = () => {
               ></TextInput>
             </div>
           </form>
-
+          <div className="flex flex-col gap-2">
           <Button
             gradientDuoTone="purpleToPink"
             className="w-full mt-5"
@@ -95,7 +96,8 @@ const SignIn = () => {
               "Sign In"
             )}
           </Button>
-
+            <GoogleOAuth classname='w-full' />
+          </div>
           <div className="mt-4 text-sm">
             <span>Don't Have Account?</span>{" "}
             <Link to="/sign-up" className="text-blue-500">
