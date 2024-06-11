@@ -12,10 +12,10 @@ app.use('/api/v1/auth/',authRoutes)
 
 // Global Error middleware
 app.use((err,req,res,next) => {
-    const statusCode = err.statusCode
+    const statusCode = err.statusCode || 500
     const message = err.message || 'Internal Server Error'
-
-    return res.status(statusCode).json({
+    console.log(err)
+    res.status(statusCode).json({
         success:false,
         statusCode,
         message
