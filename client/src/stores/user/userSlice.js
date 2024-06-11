@@ -20,7 +20,6 @@ export const userSlice = createSlice({
             state.error = null
         },
         signInFailure: (state,action) => {
-            console.log(action)
             state.error = action.payload
             state.loading = false
         }

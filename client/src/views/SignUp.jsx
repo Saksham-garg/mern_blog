@@ -16,7 +16,7 @@ const SignUp = () => {
   }
 
   const signUpUser = async() => {
-    if(!formData?.username || !formData?.password || formData?.email){
+    if(!formData?.username || !formData?.password || !formData?.email){
       return dispatch(signInFailure('Please fill all the fields'))
     }
     try {
