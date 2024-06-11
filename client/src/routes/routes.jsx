@@ -1,5 +1,5 @@
 import { Dashboard, Home, Projects, SignIn, SignUp, About } from "@/views";
-import { Layout } from "../components";
+import { Layout, PrivateComponent } from "../components";
 
 export default [
   {
@@ -24,7 +24,9 @@ export default [
       },
       {
         path: "/dashboard",
-        element: <Dashboard />,
+        element: <PrivateComponent>
+            <Dashboard />
+        </PrivateComponent>,
       },
       {
         path: "/projects",
