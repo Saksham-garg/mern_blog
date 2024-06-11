@@ -64,7 +64,35 @@ const signIn = asyncHandler(async(req,res,next) => {
     }
 })
 
+const googleAuth = asyncHandler( async (req, res, next) => {
+    const { name, email, imageURL } = req.body
+    
+    try {
+        const user = await User.findOne({email})
+        if(user){
+            const {password:pass, ...rest } = user._doc
+            const token = jwt.sign({id:user._id},process.env.JWT_SECRET)
+            return res.status(200).cookie('access_token',token,{ httpOnly:true}).json(new ApiResponse(200,rest))
+        }else{
+            const generatePassword = Math.random().toString(36).split(-8) + Math.random().toString(36).split(-8)
+            const newUser = await User.create({
+                username: name.displayName.toLowerCase().split(' ').join('') + Math.random().toString(9).split(-4),
+                password: generatePassword,
+                email: email,
+                profilePicture: imageURL
+            })
+            newUser.save()
+            const token = jwt.sign({id: newUser._id},process.env.JWT_SECRET)
+            const { password:pass, ...rest } = newUser._doc
+            return res.status(201).cookie('access_token',token,{httpOnly:true}).json(201,rest)
+        }   
+    } catch (error) {
+        next(new ApiError(500,error.message))
+    }
+})
+
 export {
     signUp,
-    signIn
+    signIn,
+    googleAuth
 }
