@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import { Alert, Button, Label, TextInput, Spinner } from 'flowbite-react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
+import { signInFailure, signInStart, signInSuccess } from '../stores/user/userSlice'
 
 const SignUp = () => {
   const [formData,setFormData] = useState({})
-  const [errorMessage,setErrorMessage] = useState(null)
-  const [loading,setLoading] = useState(false)
+  const dispatch = useDispatch()
+  const { loading, error:errorMessage } = useSelector((state) => state.user)
 
   const navigate = useNavigate()
   const handleInput = (e) => {
@@ -15,23 +17,20 @@ const SignUp = () => {
 
   const signUpUser = async() => {
     if(!formData?.username || !formData?.password || formData?.email){
-      setErrorMessage('Please fill all the fields')
+      return dispatch(signInFailure('Please fill all the fields'))
     }
     try {
-      setLoading(true)
-      setErrorMessage(null)
+      dispatch(signInStart())
       const res = await axios.post('/api/v1/auth/sign-up',formData)
-      console.log(res)
       if(res.data.success == false){
-        return setErrorMessage(res.data.message)
+        return dispatch(signInFailure(res.data.message))
       }
       if(res.data.success){
-        navigate('/sign-in')
+        dispatch(signInSuccess(res?.data?.data))
+        return navigate('/sign-in')
       }
-      setLoading(false)
     } catch (error) {
-      setErrorMessage(error.response.data.message)
-      setLoading(false)
+      dispatch(signInFailure(error.response.data.message))
     }
   }
   return (
