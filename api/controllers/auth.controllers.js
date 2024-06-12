@@ -12,7 +12,7 @@ const signUp = asyncHandler(async(req, res, next) => {
     const userSchema = signUpSchema.safeParse({ username, email, password });
   
     if(!userSchema.success){
-      return next(new ApiError('Invalid inputs',400))
+      return next(new ApiError(400,'Invalid inputs'))
     }
     const hashedPassword = bcryptjs.hashSync(password,10)
     
@@ -28,7 +28,7 @@ const signUp = asyncHandler(async(req, res, next) => {
                 "User register successfully")
         )
     } catch (error) {
-        next(new ApiError(error.message,500))
+        next(new ApiError(500,error.message))
     }
 
 })
