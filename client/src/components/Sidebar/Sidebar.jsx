@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { Sidebar } from 'flowbite-react'
 import { HiUser, HiArrowSmRight } from 'react-icons/hi'
 import { useLocation, Link } from 'react-router-dom'
+import signOutUser from '../../hooks/useSignOut.jsx'
 
 const SidebarComp = () => {
     const location = useLocation()
     const [tab,setTab] = useState('')
+    const handleSignOut = signOutUser()
     useEffect(() => {
         const urlParams = new URLSearchParams(location.search)
         const tabFromUrl = urlParams.get('tab')
@@ -20,6 +22,7 @@ const SidebarComp = () => {
                 <Sidebar.ItemGroup>
                     <Link to="/dashboard?tab=profile">
                         <Sidebar.Item
+                            as="div"
                             active={tab == 'profile'}
                             label={'User'}
                             labelColor='dark'
@@ -32,6 +35,7 @@ const SidebarComp = () => {
                         labelColor='dark'
                         icon={HiArrowSmRight}
                         className='cursor-pointer'
+                        onClick={() => handleSignOut()}
                     >
                         Sign Out
                     </Sidebar.Item>

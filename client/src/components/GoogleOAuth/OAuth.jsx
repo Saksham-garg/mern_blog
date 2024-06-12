@@ -17,9 +17,8 @@ export const OAuth = () => {
         provider.setCustomParameters({prompt:'select_account'})
         try {
             const resultFromGoogleAuth = await signInWithPopup(auth,provider)
-
             const getUserData = await axios.post('/api/v1/auth/google',{
-                name:resultFromGoogleAuth.user.name,
+                name:resultFromGoogleAuth.user.displayName,
                 email:resultFromGoogleAuth.user.email,
                 photoURL:resultFromGoogleAuth.user.photoURL
             })

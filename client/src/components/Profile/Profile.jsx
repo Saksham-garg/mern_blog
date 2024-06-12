@@ -4,16 +4,18 @@ import { useSelector } from "react-redux";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { useDispatch } from "react-redux";
 import { deleteFailure,deleteStart,deleteSuccess } from "../../stores/user/userSlice";
+import signOutUser from '../../hooks/useSignOut.jsx'
 import axios from "axios";
-import e from "express";
 
 const Profile = () => {
   const { currentUser, error } = useSelector((state) => state.user);
   const [showModal, setShowModal ] = useState(false)
   const dispatch = useDispatch()
+  const handleSignOut = signOutUser()
   const deleteUserProfile = async() => {
     setShowModal(false)
     try {
+      dispatch(deleteStart())
       const res = await axios.delete(`/api/v1/user/delete/${currentUser._id}`)
       if(!res){
         dispatch(deleteFailure(res.message))
@@ -63,7 +65,7 @@ const Profile = () => {
           <span onClick={() => setShowModal(true)} className="text-sm cursor-pointer text-red-500">
             Delete Account
           </span>
-          <span className="text-sm cursor-pointer text-red-500">Sign out</span>
+          <span className="text-sm cursor-pointer text-red-500" onClick={() => handleSignOut()}>Sign out</span>
         </div>
       </div>
       {

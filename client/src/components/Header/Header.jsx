@@ -6,9 +6,11 @@ import { FaMoon, FaSun } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { toggleTheme } from '../../stores/theme/themeSlice.js'
+import signOutUser from '../../hooks/useSignOut.jsx'
 const Header = () => {
   const path = useLocation();
   const dispatch = useDispatch()
+  const handleSignOut = signOutUser()
   const { currentUser } = useSelector((state) => state.user);
   const { themes } = useSelector((state) => state.theme)
   return (
@@ -57,7 +59,7 @@ const Header = () => {
                 <Dropdown.Item>Profile</Dropdown.Item>
               </Link>
               <Dropdown.Divider/>
-              <Dropdown.Item>Sign Out</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleSignOut()}>Sign Out</Dropdown.Item>
             </Dropdown>
           ) : (
             <Button gradientDuoTone="purpleToBlue" outline>Sign In</Button>
