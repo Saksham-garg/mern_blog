@@ -34,4 +34,19 @@ const updateUserProfile = asyncHandler(async (req,res,next) => {
     }
 })
 
-export { updateUserProfile }   
+const deleteUserProfile = asyncHandler( async(req,res,next) => {
+    if(req.params.userId !== req.user.id){
+        return next(new ApiError(401, "You are not allowed to update others profile."))
+    }
+    try {
+        await User.findByIdAndDelete(req.params.userId)
+        return res.status(200).json(new ApiResponse(200,"User deleted successfully."))
+    } catch (error) {
+        return res.status(500, error.message)
+    }
+})
+
+export { 
+    updateUserProfile,
+    deleteUserProfile
+}   

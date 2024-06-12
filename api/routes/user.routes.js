@@ -1,9 +1,10 @@
 import { Router } from 'express'
 import { verifyUser } from '../middlewares/user.middleware.js'
-import { updateUserProfile } from '../controllers/user.controllers.js'
+import { updateUserProfile, deleteUserProfile } from '../controllers/user.controllers.js'
 
 const userRoutes = Router()
 
-userRoutes.put('/:userId',verifyUser,updateUserProfile)
+userRoutes.put('/update/:userId',verifyUser,updateUserProfile)
+userRoutes.delete('/delete/:userId',verifyUser,deleteUserProfile)
 
 export default userRoutes;
