@@ -1,5 +1,5 @@
-import { Dashboard, Home, Projects, SignIn, SignUp, About } from "@/views";
-import { Layout, PrivateComponent } from "../components";
+import { Dashboard, Home, Projects, SignIn, SignUp, About, CreatePost } from "@/views";
+import { Layout, PrivateComponent, PrivateCreatePostComponent } from "../components";
 
 export default [
   {
@@ -32,6 +32,13 @@ export default [
         path: "/projects",
         element: <Projects />,
       },
+      {
+        path: "/create-post",
+        element: <PrivateCreatePostComponent>
+          <CreatePost />
+        </PrivateCreatePostComponent>,
+      },
+
     ]
   }
 ];

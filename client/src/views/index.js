@@ -4,6 +4,7 @@ import Projects from "./Projects.jsx";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp.jsx";
 import About from './About.jsx'
+import CreatePost from "./CreatePost.jsx";
 
 export {
     Dashboard,
@@ -11,5 +12,6 @@ export {
     Projects,
     SignIn,
     SignUp,
-    About
+    About,
+    CreatePost
 }

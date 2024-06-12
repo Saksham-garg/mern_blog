@@ -6,6 +6,7 @@ import ThemeContainer from "./Theme/ThemeContainer.jsx";
 import PrivateComponent from './Private/PrivateComponent.jsx'
 import SidebarComp from "./Sidebar/Sidebar.jsx";
 import Profile from './Profile/Profile.jsx'
+import PrivateCreatePostComponent from './Private/PrivateCreatePostComponent.jsx'
 export {
     Header,
     Footer,
@@ -14,5 +15,6 @@ export {
     ThemeContainer,
     PrivateComponent,
     SidebarComp,
-    Profile
+    Profile,
+    PrivateCreatePostComponent
 }
