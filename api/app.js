@@ -9,9 +9,11 @@ app.use(cookieParser())
 // API Routes
 import authRoutes from './routes/auth.routes.js'
 import userRoutes from './routes/user.routes.js'
+import postRoutes from './routes/post.routes.js'
 
 app.use('/api/v1/auth/',authRoutes)
 app.use('/api/v1/user/',userRoutes)
+app.use('/api/v1/post/',postRoutes)
 
 
 // Global Error middleware
