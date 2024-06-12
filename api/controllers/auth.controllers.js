@@ -76,7 +76,7 @@ const googleAuth = asyncHandler( async (req, res, next) => {
         }else{
             const generatePassword = Math.random().toString(36).split(-8) + Math.random().toString(36).split(-8)
             const newUser = await User.create({
-                username: name.displayName.toLowerCase().split(' ').join('') + Math.random().toString(9).split(-4),
+                username: name.toLowerCase().split(' ').join('') + Math.random().toString(9).split(-4),
                 password: generatePassword,
                 email: email,
                 profilePicture: imageURL
