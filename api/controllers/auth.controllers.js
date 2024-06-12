@@ -91,8 +91,17 @@ const googleAuth = asyncHandler( async (req, res, next) => {
     }
 })
 
+const signOut = asyncHandler((req,res,next) => {
+    try {
+        return res.clearCookie('access_token').json(new ApiResponse(200,"User signout successfully"))
+    } catch (error) {
+        next(new ApiError(500,error))
+    }
+})
+
 export {
     signUp,
     signIn,
-    googleAuth
+    googleAuth,
+    signOut
 }
