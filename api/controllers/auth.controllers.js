@@ -55,7 +55,7 @@ const signIn = asyncHandler(async(req,res,next) => {
             return next(new ApiError(400,"Invalid email or password"))
         }
         const {password:pass, ...rest } = user._doc
-        const token = jwt.sign({id:user._id},process.env.JWT_SECRET)
+        const token = jwt.sign({id:user._id, isAdmin:user.isAdmin},process.env.JWT_SECRET)
 
         return res.status(200).cookie('access_token',token,{ httpOnly:true}).json(new ApiResponse(200,rest))
         
@@ -82,7 +82,7 @@ const googleAuth = asyncHandler( async (req, res, next) => {
                 profilePicture: imageURL
             })
             newUser.save()
-            const token = jwt.sign({id: newUser._id},process.env.JWT_SECRET)
+            const token = jwt.sign({id: newUser._id, isAdmin:newUser.isAdmin},process.env.JWT_SECRET)
             const { password:pass, ...rest } = newUser._doc
             return res.status(201).cookie('access_token',token,{httpOnly:true}).json(201,rest)
         }   
