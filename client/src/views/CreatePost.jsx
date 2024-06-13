@@ -5,14 +5,18 @@ import 'react-quill/dist/quill.snow.css';
 import { app } from '../components/firebase.js'
 import { getStorage, uploadBytesResumable, ref, getDownloadURL } from 'firebase/storage'
 import { CircularProgressbar } from 'react-circular-progressbar'
+import 'react-circular-progressbar/dist/styles.css'
+import useCreatePost from '../hooks/useCreatePost.jsx';
 
 const CreatePost = () => {
-    const [value, setValue] = useState('');
+
     const [file, setFile ] = useState(null)
     const [imageUploadProgress, setImageUploadProgress ] = useState(null)   
     const [imageUplaodError, setImageUploadError ] = useState(null)
     const [formData, setFormData ] = useState({})
 
+    const handleCreatePost = useCreatePost()
+    
     const handleUploadedImage = async() => {
         try {
             if(!file){
@@ -55,8 +59,8 @@ const CreatePost = () => {
         <form>
             <div className="flex flex-col gap-6 ">
                 <div className="flex flex-col gap-4 lg:flex-row">
-                    <TextInput placeholder='Title'  className='flex-1'></TextInput>
-                    <Select>
+                    <TextInput placeholder='Title'  className='flex-1' onChange={(e) => setFormData({...formData,title:e.target.value})}></TextInput>
+                    <Select onChange={(e) => setFormData({...formData, category:e.target.value})}>
                         <option value="uncategorized">Select a category</option>
                         <option value="Javascript">Javascript.js</option>
                             <option value="Python">Python</option>
@@ -81,8 +85,8 @@ const CreatePost = () => {
                     formData.image && 
                             <img src={formData.image} alt="post_image" className="w-full h-72 object-cover"></img>
                 }
-                <ReactQuill theme="snow" value={value} onChange={setValue} className='h-72 mb-12' required/>
-                <Button type="submit" gradientDuoTone="purpleToPink">Publish</Button>
+                <ReactQuill theme="snow" placeholder='Write something...' onChange={(value) => setFormData({...formData,content: value})} className='h-72 mb-12' required/>
+                <Button type="submit" gradientDuoTone="purpleToPink" onClick={(e) => handleCreatePost(e, formData,setFormData)}>Publish</Button>
             </div>
         </form>
     </div>
