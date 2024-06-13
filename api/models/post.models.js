@@ -14,6 +14,10 @@ const PostSchema = new mongoose.Schema({
         type:String,
         required:true
     },
+    category:{
+        type:String,
+        default:'uncategorized'
+    },
     imageUrl:{
         type:String,
         default:''
