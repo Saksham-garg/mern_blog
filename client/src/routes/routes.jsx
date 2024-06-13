@@ -1,5 +1,5 @@
 import { Dashboard, Home, Projects, SignIn, SignUp, About, CreatePost } from "@/views";
-import { Layout, PrivateComponent, PrivateCreatePostComponent } from "../components";
+import { Layout, PrivateComponent, PrivateCreatePostComponent, Posts } from "../components";
 
 export default [
   {
@@ -37,8 +37,7 @@ export default [
         element: <PrivateCreatePostComponent>
           <CreatePost />
         </PrivateCreatePostComponent>,
-      },
-
+      }
     ]
   }
 ];
