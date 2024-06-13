@@ -30,6 +30,52 @@ const createPost = asyncHandler(async (req, res, next) => {
     }
 })
 
+const getPosts = asyncHandler(async (req,res,next) => {
+    try {
+        console.log(req)
+        const startIndex = parseInt(req.query.start) || 0
+        const limit = parseInt(req.query.limit) || 9
+        const sortDirection = req.query.order == 'asc' ? 1 : -1
+
+        const getAllPosts = await Post.find(                            //          Search Filter
+           { ...(req.params.userId && { userId: req.params.userId} ),  //            User ID
+            ...(req.params.category && {category: req.params.category} ), //        Category
+            ...(req.params.searchItem && {                              
+                $or:[
+                   { title : { $regex : req.params.searchItem, $options:'i' }},//   Title, Content
+                   { content : { $regex : req.params.searchItem, $options:'i' }},
+                ]
+            }),
+            ...(req.params.slug && { slug: req.params.slug }),          //          Slug
+            ...(req.params.postId && { _id: req.params.postId })       //           Post ID
+        }).
+        sort({updatedAt:sortDirection})
+        .skip(startIndex)
+        .limit(limit)
+
+        const totalPosts = await Post.countDocuments()
+        const now = new Date()
+        const oneMonthAgo = new Date(
+            now.getFullYear(),
+            now.getMonth()-1,
+            now.getDate()
+        )
+
+        const lastMonthPosts = await Post.countDocuments({
+            createdAt:{ $gte: oneMonthAgo }
+        })
+
+        return res.status(200).json(new ApiResponse(200,{
+            totalPosts:totalPosts,
+            posts:getAllPosts,
+            lastMonthPosts
+        }))
+    } catch (error) {
+        next(new ApiError(500,error))
+    }
+})
+
 export {
-    createPost
+    createPost,
+    getPosts
 }
