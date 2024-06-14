@@ -4,25 +4,22 @@ import { setPosts } from '../stores/posts/postsSlice.js'
 import axios from 'axios'
 
 const useGetPosts = () => {
-    const dispatch = useDispatch()
-    const { currentUser } = useSelector((state) => state.user)
-    const { posts } = useSelector((state) => state.post)
-    useEffect(() => {
-        ;((async() => {
-            try {
-                const res = await axios.get(`/api/v1/post/getAllPosts`,{
-                    params:{    
-                        userId:currentUser._id
-                    }
-                })
-                console.log(res.data.data)
-                dispatch(setPosts(res.data.data))
-            } catch (error) {
-                console.log(error)
+    let data ={}
+    const fetchPosts = async(setShowMore,params) => {
+        try {
+            data = await axios.get(`/api/v1/post/getAllPosts`,{
+                params
+            })
+            if(data.data.data.posts.length >= 9){
+                setShowMore(true)
+            }else{
+                setShowMore(false)
             }
-        }))();
-    },[])
-    return [posts,currentUser]
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    return [fetchPosts,data?.data?.data]
 }
 
 export default useGetPosts
