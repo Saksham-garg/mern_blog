@@ -46,7 +46,50 @@ const deleteUserProfile = asyncHandler( async(req,res,next) => {
     }
 })
 
+const getAllUsers = asyncHandler( async (req,res, next) => {
+    if(!req.user.isAdmin){
+        next(new ApiError(404,"You are not allowed to see all users"))
+    }
+
+    try {
+        const startIndex = req.query.startIndex || 0
+        const limit = req.query.limit || 9
+        const sortDirection = req.query.sort == 'asc' ? 1 : -1
+
+        const allUsers = await User.find()
+        .sort({ createdAt: sortDirection })
+        .skip(startIndex)
+        .limit(limit)
+
+        const usersWithoutPassword = allUsers.map((user) => {
+            const { password:pass, ...rest } = user._doc
+            return rest
+        })
+
+        const totalUsers = await User.countDocuments()
+
+        const now = new Date()
+        const OneMonthAgo = new Date(
+            now.getFullYear(),
+            now.getMonth-1,
+            now.getDate()
+        )
+
+        const lastMonthUsers = await User.countDocuments({
+            createdAt:{ $gte: OneMonthAgo }
+        })
+
+        if(!allUsers){
+            return next(new ApiError(500,"Something went wrong while getting users"))
+        }
+        return res.status(200).json(new ApiResponse(200,{totalUsers,users: usersWithoutPassword, lastMonthUsers}))
+    } catch (error) {
+        next(new ApiError(500, error))
+    }   
+})
+
 export { 
     updateUserProfile,
-    deleteUserProfile
+    deleteUserProfile,
+    getAllUsers
 }   
