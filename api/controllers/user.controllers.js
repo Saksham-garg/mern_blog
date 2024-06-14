@@ -35,8 +35,12 @@ const updateUserProfile = asyncHandler(async (req,res,next) => {
 })
 
 const deleteUserProfile = asyncHandler( async(req,res,next) => {
+    if(!req.user.isAdmin){
+        next(new ApiError(404,"You are not allowed to delete others users"))
+    }
+    console.log(req)    
     if(req.params.userId !== req.user.id){
-        return next(new ApiError(401, "You are not allowed to update others profile."))
+        return next(new ApiError(401, "You are not allowed to delete others users."))
     }
     try {
         await User.findByIdAndDelete(req.params.userId)
@@ -71,7 +75,7 @@ const getAllUsers = asyncHandler( async (req,res, next) => {
         const now = new Date()
         const OneMonthAgo = new Date(
             now.getFullYear(),
-            now.getMonth-1,
+            now.getMonth()-1,
             now.getDate()
         )
 
