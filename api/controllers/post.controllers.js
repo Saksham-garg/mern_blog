@@ -32,7 +32,6 @@ const createPost = asyncHandler(async (req, res, next) => {
 
 const getPosts = asyncHandler(async (req,res,next) => {
     try {
-        console.log(req)
         const startIndex = parseInt(req.query.start) || 0
         const limit = parseInt(req.query.limit) || 9
         const sortDirection = req.query.order == 'asc' ? 1 : -1
@@ -97,8 +96,35 @@ const deletePost = asyncHandler( async(req, res, next) => {
     }
 })
 
+const updatePost = asyncHandler( async(req, res, next) => {
+    if(req.user.id !== req.params.userId){
+        return next(new ApiError(404,"You are not allowed to update others post"))
+    }
+    if(!req.user.isAdmin){
+        return next(new ApiError(404,"You are not authorized to update post"))
+    }
+    try {
+        const updatedPost = await Post.findByIdAndUpdate(req.params.postId,{
+            $set:{
+                title:req.body.title,
+                imageUrl: req.body.imageUrl,
+                content: req.body.content,
+                category: req.body.category
+            }
+        }, { new: true })
+
+        if(!updatedPost){
+            return next(new ApiError(500,updatedPost))
+        }
+        return res.status(200).json(new ApiResponse(200,updatedPost,"Post updated successfully"))
+    } catch (error) {
+        next(new ApiError(500,error))
+    }
+})
+
 export {
     createPost,
     getPosts,
-    deletePost
+    deletePost,
+    updatePost
 }
