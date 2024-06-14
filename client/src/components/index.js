@@ -8,6 +8,7 @@ import SidebarComp from "./Sidebar/Sidebar.jsx";
 import Profile from './Profile/Profile.jsx'
 import PrivateCreatePostComponent from './Private/PrivateCreatePostComponent.jsx'
 import Posts from './Posts/Posts.jsx'
+import Users from './Users/Users.jsx'
 
 export {
     Header,
@@ -19,5 +20,6 @@ export {
     SidebarComp,
     Profile,
     PrivateCreatePostComponent,
-    Posts
+    Posts,
+    Users
 }

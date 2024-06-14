@@ -1,5 +1,5 @@
 import { Dashboard, Home, Projects, SignIn, SignUp, About, CreatePost, UpdatePost } from "@/views";
-import { Layout, PrivateComponent, PrivateCreatePostComponent, Posts } from "../components";
+import { Layout, PrivateComponent, PrivateCreatePostComponent } from "../components";
 
 export default [
   {
