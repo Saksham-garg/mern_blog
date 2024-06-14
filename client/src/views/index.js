@@ -5,6 +5,7 @@ import SignIn from "./SignIn";
 import SignUp from "./SignUp.jsx";
 import About from './About.jsx'
 import CreatePost from "./CreatePost.jsx";
+import UpdatePost from "./UpdatePost.jsx";
 
 export {
     Dashboard,
@@ -13,5 +14,6 @@ export {
     SignIn,
     SignUp,
     About,
-    CreatePost
+    CreatePost,
+    UpdatePost
 }
