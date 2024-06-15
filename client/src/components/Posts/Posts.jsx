@@ -1,5 +1,5 @@
 import useGetPosts from "../../hooks/useGetPosts.jsx"
-import { Table, Modal } from 'flowbite-react'
+import { Table, Modal, Button } from 'flowbite-react'
 import { Link } from 'react-router-dom'
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
@@ -8,27 +8,51 @@ import { HiOutlineExclamationCircle } from 'react-icons/hi'
 
 const Posts = () => {
   const { currentUser } = useSelector(state => state.user) 
-  const [fetchPosts,getPosts] = useGetPosts()
   const [ showMore, setShowMore ] = useState(true)
-  const [ userPosts,setUserPosts ] = useState([])
+  const [ getPosts,setPosts ] = useState({})
   const [ showModal, setShowModal ] = useState(false)
   const [ deletePostId,setDeletePostId ] = useState('')
-  useEffect(() => {
-    fetchPosts(setShowMore,{    
-      userId:currentUser._id
-  })
-  },[])
 
   useEffect(() => {
-    setUserPosts((prev) => [...prev,...getPosts.posts])
-  },[getPosts])
+    try {
+        const fetchPosts = async() => {
+            const posts = await axios.get(`/api/v1/post/getAllPosts`)
+            if(!posts){
+              console.log(posts.data.message)
+              return
+            }
+            setPosts([...posts.data.data.posts])
+            if(posts.data.data.posts.length < 9){
+              setShowMore(false)
+            }else{
+              setShowMore(true)
+            }
+        }
+        fetchPosts()  
+    } catch (error) {
+        console.log(error)
+    }
+  },[])
+
 
   const handleShowMore = async() => {
     try {
-      fetchPosts(setShowMore,{    
-        userId:currentUser._id,
-        startIndex: userPosts.posts.length - 1
-    })
+      const fetchPosts = async() => {
+        const posts = await axios.get(`/api/v1/post/getAllPosts`,{
+          startIndex: getPosts.length - 1
+        })
+        if(!posts){
+          console.log(posts)
+          return
+        }
+        setPosts([...getPosts,posts.data.data.posts])
+        if(posts.data.data.posts.length < 9){
+          setShowMore(false)
+        }else{
+          setShowMore(true)
+        }
+    }
+    fetchPosts() 
     } catch (error) {
       console.log(error)
     }
@@ -37,17 +61,12 @@ const Posts = () => {
   const handleDeletePost = async() => {
     setShowModal(false)
     try {
-      const res = axios.delete(`/api/v1/post/delete-post/`,{
-        params:{
-          postId: deletePostId,
-          userId: currentUser._id
-        }
-      })
+      const res = axios.delete(`/api/v1/post/delete-post/${deletePostId}/${currentUser._id}`)
       if(!res){
         console.log("some error occured")
         return 
       }
-      setUserPosts((prev) => prev.filter((post) => post._id != deletePostId))
+      setPosts((prev) => prev.filter((post) => post._id != deletePostId))
 
     } catch (error) {
       console.log(error)
@@ -58,7 +77,7 @@ const Posts = () => {
     <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
       
          {
-           currentUser.isAdmin && userPosts?.posts?.length > 0 ? 
+           currentUser.isAdmin && getPosts?.length > 0 ? 
            (
              <Table hoverable className='shadow-md'>
                   <Table.Head>
@@ -71,9 +90,9 @@ const Posts = () => {
                   </Table.Head>
 
                 { 
-                  userPosts.posts.map((post) => {
+                  getPosts.map((post) => {
                     return (
-                      <Table.Body className='divide-y'>
+                      <Table.Body className='divide-y' key={post._id}>
                     <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
                         <Table.Cell>{  new Date(post.createdAt).toLocaleDateString()}</Table.Cell>
                         <Table.Cell>
