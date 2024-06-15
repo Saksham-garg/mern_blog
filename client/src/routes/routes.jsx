@@ -1,4 +1,4 @@
-import { Dashboard, Home, Projects, SignIn, SignUp, About, CreatePost, UpdatePost } from "@/views";
+import { Dashboard, Home, Projects, SignIn, SignUp, About, CreatePost, UpdatePost, PostPage } from "@/views";
 import { Layout, PrivateComponent, PrivateCreatePostComponent } from "../components";
 
 export default [
@@ -44,6 +44,10 @@ export default [
           <UpdatePost />
         </PrivateCreatePostComponent>,
       },
+      {
+        path:'post/:slug',
+        element:<PostPage />
+      }
 
     ]
   }

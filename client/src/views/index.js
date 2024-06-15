@@ -6,6 +6,7 @@ import SignUp from "./SignUp.jsx";
 import About from './About.jsx'
 import CreatePost from "./CreatePost.jsx";
 import UpdatePost from "./UpdatePost.jsx";
+import PostPage from "./PostPage.jsx";
 
 export {
     Dashboard,
@@ -15,5 +16,6 @@ export {
     SignUp,
     About,
     CreatePost,
-    UpdatePost
+    UpdatePost,
+    PostPage
 }
