@@ -9,6 +9,7 @@ import Profile from './Profile/Profile.jsx'
 import PrivateCreatePostComponent from './Private/PrivateCreatePostComponent.jsx'
 import Posts from './Posts/Posts.jsx'
 import Users from './Users/Users.jsx'
+import CallToAction from "./CallToAction/CallToAction.jsx";
 
 export {
     Header,
@@ -21,5 +22,6 @@ export {
     Profile,
     PrivateCreatePostComponent,
     Posts,
-    Users
+    Users,
+    CallToAction
 }
