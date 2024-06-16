@@ -44,6 +44,24 @@ const CommentSection = ({postId}) => {
         console.log(error)
     }
   },[postId])
+
+  const handleLikeComment = async(comment_id) => {
+        try {
+            const res = await axios.put(`/api/v1/comment/likeComment/${comment_id}`)
+            if(res){
+                setComments([...comments.map((comment) => {
+                    return comment._id == comment_id ? {
+                        ...comment,
+                        likes:[...res.data.data.likes],
+                        numberOfLikes: res.data.data.numberOfLikes
+                    } : comment
+                })])
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
   return (
     <div className="max-w-3xl mx-auto mt-5">
       {currentUser ? (
@@ -94,7 +112,7 @@ const CommentSection = ({postId}) => {
       }
       {
         comments.map((comment) => {
-            return <Comment comment={comment} key={comment._id}/>
+            return <Comment comment={comment} onLike={handleLikeComment} key={comment._id}/>
         })
       }
     </div>

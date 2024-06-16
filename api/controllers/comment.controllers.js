@@ -39,7 +39,32 @@ const getComments = asyncHandler( async(req,res,next) => {
     }
 })
 
+const likeComment = asyncHandler(async(req,res,next) => {
+    try {
+        const comment = await Comment.findById(req.params.commentId)
+        console.log(comment)
+        if(!comment){
+            return next(new ApiError(500,"Could not find this comment."))
+        }
+        console.log(req.user.id)
+        const userLiked = comment.likes.indexOf(req.user.id)
+        if(userLiked === -1){
+            comment.likes.push(req.user.id)
+            comment.numberOfLikes += 1
+        }else{
+            comment.likes.splice(userLiked,1)
+            comment.numberOfLikes -= 1
+        }
+        comment.save()
+
+        return res.status(200).json(new ApiResponse(200,comment,"Comment liked!"))
+    } catch (error) {
+        return next(new ApiError(500,error))
+    }
+})
+
 export {
     addComment,
-    getComments
+    getComments,
+    likeComment
 }
