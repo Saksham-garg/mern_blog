@@ -108,10 +108,40 @@ const deleteComment = asyncHandler( async(req,res,next) => {
     }
 })
 
+const getAllComments = asyncHandler( async(req,res,next) => {
+    if(!req.user.isAdmin){
+        return next(new ApiError(404,"You are not authorized to get comments."))
+    }
+    try {
+        const startIndex = parseInt(req.params.startIndex) || 0
+        const limit = parseInt(req.params.limit) || 9
+        const sortDirection = req.params.order == 'asc' ? 1 : -1
+
+        const comments = await Comment.find({}).sort({updatedAt:sortDirection})
+        .skip(startIndex)
+        .limit(limit)
+
+        if(!comments){
+            return next(new ApiError(500,"Could not get comments"))
+        }
+
+        const totalComments = await Comment.countDocuments()
+        const now = new Date()
+        const oneMonthAgo = new Date(now.getFullYear(),now.getMonth() - 1,now.getDate())
+        const lastMonthComments = await Comment.countDocuments({
+            createdAt:{$gte:oneMonthAgo}
+        })
+        return res.status(200).json(new ApiResponse(200,{comments,totalComments,lastMonthComments}))
+    } catch (error) {
+        next(new ApiError(500,error))
+    }
+})
+
 export {
     addComment,
     getComments,
     likeComment,
     updateComment,
-    deleteComment
+    deleteComment,
+    getAllComments
 }

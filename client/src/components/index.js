@@ -13,6 +13,7 @@ import CallToAction from "./CallToAction/CallToAction.jsx";
 import CommentSection from "./CommentSection/CommentSection.jsx";
 import ScrollToTop from './ScrollToTop/ScrollToTop.jsx'
 import PostCard from "./PostCard/PostCard.jsx";
+import Comments from "./Comments/Comments.jsx";
 
 export {
     Header,
@@ -29,5 +30,6 @@ export {
     CallToAction,
     CommentSection,
     ScrollToTop,
-    PostCard
+    PostCard,
+    Comments
 }

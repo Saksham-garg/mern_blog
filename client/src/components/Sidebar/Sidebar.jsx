@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Sidebar } from 'flowbite-react'
-import { HiUser, HiArrowSmRight, HiDocumentText, HiOutlineUserGroup } from 'react-icons/hi'
+import { HiUser, HiArrowSmRight, HiDocumentText, HiOutlineUserGroup, HiAnnotation } from 'react-icons/hi'
 import { useLocation, Link } from 'react-router-dom'
 import signOutUser from '../../hooks/useSignOut.jsx'
 import { useSelector } from 'react-redux'
@@ -55,6 +55,16 @@ const SidebarComp = () => {
                                     icon={HiOutlineUserGroup}
                                     >
                                     Users
+                                </Sidebar.Item>
+                            </Link>
+                            <Link to="/dashboard?tab=comments">
+                                <Sidebar.Item
+                                    as="div"
+                                    active={tab == 'comments'}
+                                    labelColor='dark'
+                                    icon={HiAnnotation}
+                                    >
+                                    Comments
                                 </Sidebar.Item>
                             </Link>
                           </>
