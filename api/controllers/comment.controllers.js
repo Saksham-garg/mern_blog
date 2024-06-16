@@ -87,9 +87,31 @@ const updateComment = asyncHandler(async(req,res,next) => {
     }
 })
 
+const deleteComment = asyncHandler( async(req,res,next) => {
+    try {
+        console.log(req.params.commentId)
+        const getComment = await Comment.findById(req.params.commentId)
+        if(!getComment){
+            return next(new ApiError(404,"Comment not found!"))
+        }
+        console.log(getComment)
+        if(req.user.id !== getComment.userId && !req.user.isAdmin){
+            return next(new ApiError(404,"You cannot delete this comment."))
+        }
+        const comment = await Comment.findByIdAndDelete(req.params.commentId)
+        if(!comment){
+            return next(new ApiError(500,"Cannot delete comment"))
+        }
+        return res.status(200).json(new ApiResponse(200,comment))
+    } catch (error) {
+        next(new ApiError(500,error))
+    }
+})
+
 export {
     addComment,
     getComments,
     likeComment,
-    updateComment
+    updateComment,
+    deleteComment
 }

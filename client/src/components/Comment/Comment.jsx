@@ -5,7 +5,7 @@ import { FaThumbsUp } from "react-icons/fa";
 import { Textarea, Button } from "flowbite-react";
 import { useSelector } from "react-redux";
 
-const Comment = ({ comment, onLike, onEdit }) => {
+const Comment = ({ comment, onLike, onEdit, onDelete}) => {
   const [user, setUser] = useState({});
   const { currentUser } = useSelector((state) => state.user);
   const [isCommentEdit, setIsCommentEdit] = useState(false);
@@ -55,7 +55,7 @@ const Comment = ({ comment, onLike, onEdit }) => {
             {moment(comment.createdAt).fromNow()}
           </span>
         </div>
-        {editComment ? (
+        {isCommentEdit ? (
           <>
             <Textarea
               placeholder="Write something..."
@@ -106,16 +106,25 @@ const Comment = ({ comment, onLike, onEdit }) => {
               </p>
               {currentUser &&
                 (currentUser._id === comment.userId || currentUser.isAdmin) && (
+                    <>
                   <button
                     type="button"
                     onClick={() => {
-                      setEditComment(comment.comment);
-                      setIsCommentEdit(true);
+                        setEditComment(comment.comment);
+                        setIsCommentEdit(true);
                     }}
                     className={`text-gray-400 hover:text-blue-500'`}
-                  >
+                    >
                     Edit
                   </button>
+                  <button
+                    type="button"
+                    onClick={onDelete}
+                    className={`text-gray-400 hover:text-blue-500'`}
+                    >
+                    Delete
+                  </button>
+                      </>
                 )}
             </div>
           </>
