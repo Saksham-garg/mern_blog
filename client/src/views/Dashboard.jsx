@@ -1,7 +1,7 @@
 import React,{ useState, useEffect } from 'react'
 import { SidebarComp } from '../components'
 import { useLocation } from 'react-router-dom'
-import { Profile, Posts, Users, Comments } from '../components'
+import { Profile, Posts, Users, Comments, DashboardSection } from '../components'
 const Dashboard = () => {
   const location = useLocation()
   const [tab,setTab] = useState('')
@@ -21,6 +21,7 @@ const Dashboard = () => {
       { tab == 'posts' ? <Posts /> : ''}
       { tab == 'users' ? <Users /> : ''}
       { tab == 'comments' ? <Comments /> : ''}
+      { tab == 'dash' ? <DashboardSection /> : ''}
     </div>
   )
 }

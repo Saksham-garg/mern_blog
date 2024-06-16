@@ -14,6 +14,7 @@ import CommentSection from "./CommentSection/CommentSection.jsx";
 import ScrollToTop from './ScrollToTop/ScrollToTop.jsx'
 import PostCard from "./PostCard/PostCard.jsx";
 import Comments from "./Comments/Comments.jsx";
+import DashboardSection from "./Dashboard/DashboardSection.jsx";
 
 export {
     Header,
@@ -31,5 +32,6 @@ export {
     CommentSection,
     ScrollToTop,
     PostCard,
-    Comments
+    Comments,
+    DashboardSection
 }
