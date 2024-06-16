@@ -7,6 +7,7 @@ import About from './About.jsx'
 import CreatePost from "./CreatePost.jsx";
 import UpdatePost from "./UpdatePost.jsx";
 import PostPage from "./PostPage.jsx";
+import Search from "./Search.jsx";
 
 export {
     Dashboard,
@@ -17,5 +18,6 @@ export {
     About,
     CreatePost,
     UpdatePost,
-    PostPage
+    PostPage,
+    Search
 }
