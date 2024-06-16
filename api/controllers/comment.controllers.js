@@ -26,6 +26,20 @@ const addComment = asyncHandler(async (req,res,next) => {
     }
 })
 
+const getComments = asyncHandler( async(req,res,next) => {
+    try {
+        const comments = await Comment.find({postId:req.params.postId}).sort({createdAt:-1})
+        if(!comments){
+            console.log(error)
+            return next(new ApiError(500,"Could not get comments"))
+        }
+        return res.status(200).json(new ApiResponse(200,comments))
+    } catch (error) {
+        return next(new ApiError(500,error))
+    }
+})
+
 export {
-    addComment
+    addComment,
+    getComments
 }

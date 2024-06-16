@@ -92,8 +92,19 @@ const getAllUsers = asyncHandler( async (req,res, next) => {
     }   
 })
 
+const getUser = asyncHandler(async(req,res,next) => {
+    try {
+        const user = await User.findById(req.params.userId)
+        const { password:pass, ...rest} = user._doc
+        return res.status(200).json(new ApiResponse(200,rest))
+    } catch (error) {
+        return  next(new ApiError(500,error))
+    }
+})
+
 export { 
     updateUserProfile,
     deleteUserProfile,
-    getAllUsers
+    getAllUsers,
+    getUser
 }   
