@@ -63,8 +63,33 @@ const likeComment = asyncHandler(async(req,res,next) => {
     }
 })
 
+const updateComment = asyncHandler(async(req,res,next) => {
+    const { comment } = req.body
+    try {
+        const getComment = await Comment.findById(req.params.commentId)
+        if(req.user.id !== getComment.userId && !req.user.isAdmin){
+            return next(new ApiError(404,"You cannot update this comment."))
+        }
+        if(!getComment){
+            return next(new ApiError(404,"Comment not found!"))
+        }
+ 
+        const updatedComment = await Comment.findByIdAndUpdate(req.params.commentId,{
+                comment: comment
+        },{new:true})
+
+        if(!updateComment){
+            return next(new ApiError(400,"Could not edit comment."))
+        }
+        return res.status(200).json(new ApiResponse(200,updatedComment,"Comment updated successfully."))
+    } catch (error) {
+        return next(new ApiError(500,error))
+    }
+})
+
 export {
     addComment,
     getComments,
-    likeComment
+    likeComment,
+    updateComment
 }
