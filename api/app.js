@@ -10,10 +10,12 @@ app.use(cookieParser())
 import authRoutes from './routes/auth.routes.js'
 import userRoutes from './routes/user.routes.js'
 import postRoutes from './routes/post.routes.js'
+import commentRoutes from './routes/comment.routes.js'
 
 app.use('/api/v1/auth/',authRoutes)
 app.use('/api/v1/user/',userRoutes)
 app.use('/api/v1/post/',postRoutes)
+app.use('/api/v1/comment/',commentRoutes)
 
 
 // Global Error middleware
