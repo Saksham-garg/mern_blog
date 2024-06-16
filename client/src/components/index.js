@@ -10,6 +10,8 @@ import PrivateCreatePostComponent from './Private/PrivateCreatePostComponent.jsx
 import Posts from './Posts/Posts.jsx'
 import Users from './Users/Users.jsx'
 import CallToAction from "./CallToAction/CallToAction.jsx";
+import CommentSection from "./CommentSection/CommentSection.jsx";
+import ScrollToTop from './ScrollToTop/ScrollToTop.jsx'
 
 export {
     Header,
@@ -23,5 +25,7 @@ export {
     PrivateCreatePostComponent,
     Posts,
     Users,
-    CallToAction
+    CallToAction,
+    CommentSection,
+    ScrollToTop
 }

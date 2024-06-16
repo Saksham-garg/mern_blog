@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Button, Spinner } from "flowbite-react";
-import { CallToAction } from "../components";
+import { CallToAction, CommentSection } from "../components";
 const PostPage = () => {
   const { slug } = useParams();
   const [posts, setPosts] = useState([]);
@@ -72,8 +72,9 @@ const PostPage = () => {
           className="p-3 max-w-2xl mx-auto w-full post-content"
           dangerouslySetInnerHTML={{ __html: posts && posts.content }}
         ></div>
-        <CallToAction />
       </div>
+        <CallToAction />
+        <CommentSection postId={posts._id}/>  
     </main>
   );
 };
